@@ -188,9 +188,57 @@ document.documentElement.scrollLeft;
     textInput:1.任何可以获得焦点的元素都可以触发keypress事件，但只有编辑区才能出发textInput事件。2.textInput事件只会在用户按下能够输入实际字符的键时才会被触发，而keypress事件则在按下那些能够影响文本显示的键时也会触发（例如退格键）。
 - 5.设备中的键盘事件    当用户按下十字键（键码为175~178）
 #### 13.4.5 复合事件
+  复合事件是DOM3级事件中新添加的一类事件，用于处理IME的输入序列。IME（输入法编辑器）可以让用户在物理键盘上找不到的字符。
+#### 13.4.6 变动事件
+  略
+    1.删除节点：removeChild()或replaceChild()从DOM中删除节点时，首先会触发DOMNodeRemoved事件。
+    2.插入节点：appendChild()、replaceChild()或insertBefore()向DOM中插入节点。
+#### 13.4.7 H5事件
+  - 1.contextmenu contextmenu 事件会在用户尝试打开上下文菜单时被触发。该事件通常在鼠标点击右键或者按下键盘上的菜单键时被触发，如果使用菜单键，该上下文菜单会被展示 到所聚焦元素的左下角，但是如果该元素是一棵DOM树的话，上下文菜单便会展示在当前这一行的左下角。
+  >任何没有被禁用的鼠标右击事件 (通过调用事件的 preventDefault() 方法) 将会使得 contextmenu 事件在目标元素上被触发
+  ```js
+  noContext = document.getElementById('noContextMenu');
 
+noContext.addEventListener('contextmenu', e => {
+  e.preventDefault();
+});
+```
+```html
+<p id="noContextMenu">这个段落右键菜单已被禁用。</p>
+<p>但是这个段落没有被禁用。</p>
+```
+  - 2.beforeunload 事件  当浏览器窗口关闭或者刷新时，会触发beforeunload事件。当前页面不会直接关闭，可以点击确定按钮关闭或刷新，也可以取消关闭或刷新。
+```js
+   window.addEventListener("beforeunload", function (event) {
+  event.returnValue = "\o/";
+});
+```
+如果处理函数为Event对象的returnValue属性赋值非空字符串，浏览器会弹出一个对话框，来询问用户是否确定要离开当前页面。
 
+- 2.DOMContentLoaded 事件：则在形成完整的DOM树之后就会触发，不理会图像、Javascript文件、css文件或其他资源是否已经下载完毕。
+```js
+document.addEventListener('DOMContentLoaded', (event) => {
+    console.log('DOM fully loaded and parsed'); // 译者注："DOM完全加载以及解析"
+});
+```
+- 4.readystatechange 事件  这个事件的目的是提供与文档或元素的加载状态有关的信息，但这个事件的行为有时候也很难预料。
 
+- 5.pageshow和pagehide 事件
+  pageshow:当一条会话历史记录被执行的时候将会触发页面显示(pageshow)事件。(这包括了后退/前进按钮操作，同时也会在onload 事件触发后初始化页面时触发)
+  pagehide:改时间会在浏览器卸载页面的时候触发，而且是在unload事件之前触发。
 
+- 6.haschange 事件：之所以有这个参数，是因为在ajax应用中，开发人员要经常利用URL参数数列来保存状态或导航信息。
+
+#### 13.4.8 设备事件
+  - 1.orientationchange 事件。
+  - 2.MozOrientation 事件。
+  - 3.deviceorientation 事件。
+  - 4.devicemotion 事件
+#### 13.4.9 触摸与手势事件
+### 13.5 内存和性能
+---
+#### 13.5.1 事件委托
+  >“对事件处理程序过多”问题的解决方案就是事件委托。事件委托利用了事件冒泡，只指定一个事件处理程序，就可以管理某一类型的所有事件。
+#### 13.5.2 移除事件处理程序
 
 
